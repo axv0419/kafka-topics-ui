@@ -14,12 +14,9 @@ RUN wget "https://github.com/mholt/caddy/releases/download/v0.10.11/caddy_v0.10.
 
 # Add and Setup Kafka-Topics-Ui
 ENV KAFKA_TOPICS_UI_VERSION="0.9.4"
-RUN wget "https://github.com/axv0419/kafka-topics-ui/releases/download/v${KAFKA_TOPICS_UI_VERSION}/kafka-topics-ui-${KAFKA_TOPICS_UI_VERSION}.tar.gz" \
-         -O /kafka-topics-ui.tar.gz \
-    && mkdir /kafka-topics-ui \
-    && tar xzf /kafka-topics-ui.tar.gz -C /kafka-topics-ui --no-same-owner \
-    && rm -f /kafka-topics-ui.tar.gz \
-    && rm -f /kafka-topics-ui/env.js \
+RUN mkdir -p /kafka-topics-ui
+ADD ../ /kafka-topics-ui
+RUN rm -f /kafka-topics-ui/env.js \
     && ln -s /tmp/env.js /kafka-topics-ui/env.js
 
 # Add configuration and runtime files
