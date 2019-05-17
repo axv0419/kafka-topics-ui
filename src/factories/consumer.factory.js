@@ -168,7 +168,7 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
   //UTILITIES / STATICS
 
   function getConsumer(format, uuid) {
-    return {group: 'blue_cow_' + format + '_' + uuid, instance: CONSUMER_NAME_PREFIX + format};
+    return {group: 'kafka_topics_ui_' + format + '_' + uuid, instance: CONSUMER_NAME_PREFIX + format};
   }
 
   function preparePartitionData(topicName, partitions) {
@@ -180,14 +180,9 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
   }
 
   function consumerUUID() {
-    var u = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-    return u;
-    //   var a = $filter('date')(Date.now(), "yyyy-MM-dd-hh-mm-ss-sss");
+    var a = $filter('date')(Date.now(), "yyyy-MM-dd-hh-mm-ss-sss");
     //$cookies.put('uuid', $filter('date')(Date.now(), "yyyy-MM-dd-hh-mm-ss-sss")); //TODO milis, do we need the cookie ?
-    // return a;
+    return a;
   }
 
   function saveTopicTypeToCookie(topicName, format) {
@@ -223,7 +218,8 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
    * If topic is not defined, or hasn't been consumed before, then will try detection start with Avro
    **/
   function getConsumerType(topicName) {
-    return 'binary';
+    return 'binary' ;
+
     if (isKnownBinaryTopic(topicName)) {
       $log.debug(topicName, "DETECTING TYPE.. IT'S A KNOWN [ BINARY ] TOPIC [topics.config.js]");
       return 'binary';
@@ -242,6 +238,7 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
   }
 
   function getConsumerTypeRetry(previousFormatTried, topicName) {
+    return 'binary' ;
     switch (previousFormatTried) {
       case 'avro':
         $log.debug(topicName, "DETECTING TYPE.. FAILED WITH AVRO, WILL TRY [ JSON ]");
