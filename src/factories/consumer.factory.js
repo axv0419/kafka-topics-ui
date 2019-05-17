@@ -218,7 +218,7 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
    * If topic is not defined, or hasn't been consumed before, then will try detection start with Avro
    **/
   function getConsumerType(topicName) {
-    return 'binary' ;
+    return 'json' ;
 
     if (isKnownBinaryTopic(topicName)) {
       $log.debug(topicName, "DETECTING TYPE.. IT'S A KNOWN [ BINARY ] TOPIC [topics.config.js]");
@@ -238,7 +238,7 @@ angularAPP.factory('consumerFactory', function ($rootScope, $http, $log, $q, $fi
   }
 
   function getConsumerTypeRetry(previousFormatTried, topicName) {
-    return 'binary' ;
+    return 'json' ;
     switch (previousFormatTried) {
       case 'avro':
         $log.debug(topicName, "DETECTING TYPE.. FAILED WITH AVRO, WILL TRY [ JSON ]");
